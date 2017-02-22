@@ -9,7 +9,7 @@ app.listen((process.env.PORT || 5000));
 
 // Server index page
 app.get("/", function (req, res) {
-  res.send("Deployed Sreejith!");
+  res.send("Deployed Sreejith TUV!");
 });
 
 // Facebook Webhook
@@ -124,23 +124,20 @@ function callRestService (message,URL,senderId) {
     headers: { "Content-Type": "application/json" }
 };
  
-client.registerMethod("postMethod", URL, "POST");
+//client.registerMethod("postMethod", URL, "POST");
  
-client.methods.postMethod(args, function (data, response) {
+//client.methods.postMethod(args, function (data, response) {
     // parsed response body as js object
    
     // raw response
              //   console.log("hey data"+data.responseMessage);
-   var information =data.responseMessage.split("<br/>")
+  // var information =data.responseMessage.split("<br/>")
   //console.log('yo1'+information[1])
   
  
- for(var i = 0; i <information.length; i++) {
-console.log(information[i]);
-}
-              
-});
-
+// for(var i = 0; i <information.length; i++) {
+//console.log(information[i]);
+//}
 ////////////////////////////////////////////////////////////////////////
 var message1 = {
               attachment: {
@@ -167,4 +164,6 @@ var message1 = {
 			
 			sendMessage(senderId, message1);
 
+             
 }
+

@@ -106,7 +106,7 @@ function processMessage(event) {
     // You may get a text or attachment but not both
     if (message.text) {
       var formattedMsg = message.text.toLowerCase().trim();
-	  var url="http://localhost:8080/BootAppn/botData";
+	  var url="http://172.31.19.91:8080/BootAppn/botData";
       callRestService(formattedMsg,url,senderId)
       
     } else if (message.attachments) {

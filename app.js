@@ -35,6 +35,8 @@ app.post("/webhook", function (req, res) {
       entry.messaging.forEach(function(event) {
         if (event.postback) {
           processPostback(event);
+        }else if (event.message) {
+          processMessage(event);
         }
       });
     });
@@ -66,8 +68,11 @@ function processPostback(event) {
         name = bodyObj.first_name;
         greeting = "Hi " + name + ". ";
       }
-      var message = greeting + "I am your personal Bot. I can tell you various details regarding insurance.";
-      sendMessage(senderId, {text: message});
+      var formattedMsg = greeting + "I am your personal Bot. I can tell you various details regarding insurance.";
+      //sendMessage(senderId, {text: message});
+	    //var formattedMsg = message.text.toLowerCase().trim();
+	  var url="http://localhost:8080/BootAppn/botData";
+      callRestService(formattedMsg,url,senderId)
     });
   }
 }
@@ -87,4 +92,79 @@ function sendMessage(recipientId, message) {
       console.log("Error sending message: " + response.error);
     }
   });
+}
+
+
+function processMessage(event) {
+  if (!event.message.is_echo) {
+    var message = event.message;
+    var senderId = event.sender.id;
+
+    console.log("Received message from senderId: " + senderId);
+    console.log("Message is: " + JSON.stringify(message));
+
+    // You may get a text or attachment but not both
+    if (message.text) {
+      var formattedMsg = message.text.toLowerCase().trim();
+	  var url="http://localhost:8080/BootAppn/botData";
+      callRestService(formattedMsg,url,senderId)
+      
+    } else if (message.attachments) {
+      sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+    }
+  }
+}
+
+
+
+
+function callRestService (message,URL,senderId) {
+  var args = {
+    data: { inputMessage: message },
+    headers: { "Content-Type": "application/json" }
+};
+ 
+client.registerMethod("postMethod", URL, "POST");
+ 
+client.methods.postMethod(args, function (data, response) {
+    // parsed response body as js object
+   
+    // raw response
+                console.log("hey data"+data.responseMessage);
+   var information =data.responseMessage.split("<br/>")
+  // console.log('yo1'+information[1])
+  
+ 
+   for(var i = 0; i <information.length; i++) {
+console.log(information[i]);
+}
+              
+});
+
+////////////////////////////////////////////////////////////////////////
+var message1 = {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "generic",
+                  elements: [{
+                    title: "Insurance",
+                    subtitle: "select the option?",
+                    //image_url: movieObj.Poster === "N/A" ? "http://placehold.it/350x150" : movieObj.Poster,
+                    buttons: [{
+                      type: "postback",
+                      title: "Get Insured",
+                      payload: "Correct"
+                    }, {
+                      type: "postback",
+                      title: "change Address",
+                      payload: "Incorrect"
+                    }]
+                  }]
+                }
+              }
+            };
+			
+			sendMessage(senderId, message1);
+
 }

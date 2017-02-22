@@ -69,10 +69,10 @@ function processPostback(event) {
         greeting = "Hi " + name + ". ";
       }
       var formattedMsg = greeting + "I am your personal Bot. I can tell you various details regarding insurance.";
-      //sendMessage(senderId, {text: message});
+      sendMessage(senderId, {text: formattedMsg});
 	    //var formattedMsg = message.text.toLowerCase().trim();
-	  var url="http://localhost:8080/BootAppn/botData";
-      callRestService(formattedMsg,url,senderId)
+	 // var url="http://localhost:8080/BootAppn/botData";
+      //callRestService(formattedMsg,url,senderId)
     });
   }
 }

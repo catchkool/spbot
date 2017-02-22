@@ -69,10 +69,10 @@ function processPostback(event) {
         greeting = "Hi " + name + ". ";
       }
       var formattedMsg = greeting + "I am your personal Bot. I can tell you various details regarding insurance.";
-      sendMessage(senderId, {text: formattedMsg});
+      //sendMessage(senderId, {text: formattedMsg});
 	    //var formattedMsg = message.text.toLowerCase().trim();
-	 // var url="http://localhost:8080/BootAppn/botData";
-      //callRestService(formattedMsg,url,senderId)
+	  var url="http://172.31.19.91:8080/BootAppn/botData";
+     callRestService(formattedMsg,url,senderId)
     });
   }
 }
@@ -130,12 +130,12 @@ client.methods.postMethod(args, function (data, response) {
     // parsed response body as js object
    
     // raw response
-                console.log("hey data"+data.responseMessage);
+             //   console.log("hey data"+data.responseMessage);
    var information =data.responseMessage.split("<br/>")
-  // console.log('yo1'+information[1])
+  //console.log('yo1'+information[1])
   
  
-   for(var i = 0; i <information.length; i++) {
+ for(var i = 0; i <information.length; i++) {
 console.log(information[i]);
 }
               
